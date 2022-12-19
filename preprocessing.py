@@ -1,6 +1,7 @@
 import pickle
 
 from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 
 def fit_tokenizer(train_data, num_words):
@@ -10,20 +11,26 @@ def fit_tokenizer(train_data, num_words):
     :return: trained Keras Tokenizer
     """
 
+    print('Tokenizer training started')
+
     # Creating and training a tokenizer
     tokenizer = Tokenizer(num_words=num_words)
     tokenizer.fit_on_texts(train_data)
 
+    print('Tokenizer training completed')
+
     # Saving the Tokenizer
     with open('tokenizer.pickle', 'wb') as handle:
         pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+    print('Tokenizer saved')
 
 
 def preprocessing(text, max_review_len, tokenizer=None):
     """
     :param text: text to be tokenized
     :param max_review_len: the length of the sequence to which we reduce all texts
-    :param tokenizer: choose either your own tokenizer or one already trained at the root of the project
+    :param tokenizer: choose either your own tokenizer or one already trained at the tokenizers package
     :return: processed text ready for use by a neural network
     """
 
